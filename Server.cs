@@ -67,7 +67,7 @@ namespace HTTPServer
                     // TODO: Call HandleRequest Method that returns the response
                     Response Res = this.HandleRequest(request);
                     // TODO: Send Response back to client
-                    client
+                    socket.Send(Encoding.ASCII.GetBytes(Res.ResponseString));
                 }
                 catch (Exception ex)
                 {
@@ -86,7 +86,8 @@ namespace HTTPServer
             string content;
             try
             {
-                //TODO: check for bad request 
+                //TODO: check for bad request
+                
 
                 //TODO: map the relativeURI in request to get the physical path of the resource.
 
