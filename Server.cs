@@ -44,9 +44,9 @@ namespace HTTPServer
         public void HandleConnection(object obj)
         {
             // TODO: Create client socket 
-            Socket clientsocket = (Socket)obj;
+            Socket socket = (Socket)obj;
             // set client socket ReceiveTimeout = 0 to indicate an infinite time-out period
-            clientsocket.ReceiveTimeout = 0;
+            socket.ReceiveTimeout = 0;
             // TODO: receive requests in while true until remote client closes the socket.
 
             while (true)
@@ -55,19 +55,19 @@ namespace HTTPServer
                 {
                     // TODO: Receive request
                     byte[] recievedata = new byte[1024];
-                    int receivedLength = clientsocket.Receive(recievedata);
+                    int receivedLength = socket.Receive(recievedata);
                     // TODO: break the while loop if receivedLen==0
                     if (receivedLength == 0)
                     {
-                        Console.WriteLine("Client: {0} ended the connection", clientsocket.RemoteEndPoint);
+                        Console.WriteLine("Client: {0} ended the connection", socket.RemoteEndPoint);
                         break;
                     }
                     // TODO: Create a Request object using received request string
                     Request request = new Request(Encoding.ASCII.GetString(recievedata, 0, receivedLength));
                     // TODO: Call HandleRequest Method that returns the response
-                    HandleRequest(request);
+                    Response Res = this.HandleRequest(request);
                     // TODO: Send Response back to client
-                    clientsocket.Send(recievedata, 0, receivedLength, SocketFlags.None);
+                    client
                 }
                 catch (Exception ex)
                 {
@@ -77,12 +77,12 @@ namespace HTTPServer
             }
 
             // TODO: close client socket
-            clientsocket.Close();
+            socket.Close();
         }
 
         Response HandleRequest(Request request)
         {
-            throw new NotImplementedException();
+ /*           throw new NotImplementedException();*/
             string content;
             try
             {
@@ -133,6 +133,7 @@ namespace HTTPServer
             catch (Exception ex)
             {
                 // TODO: log exception using Logger class
+                Logger.LogException(ex);
                 Environment.Exit(1);
             }
         }

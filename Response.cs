@@ -30,15 +30,15 @@ namespace HTTPServer
         List<string> headerLines = new List<string>();
         public Response(StatusCode code, string contentType, string content, string redirectoinPath)
         {
-            throw new NotImplementedException();
-            // TODO: Add headlines (Content-Type, Content-Length,Date, [location if there is redirection])
+/*            throw new NotImplementedException();
+*/            // TODO: Add headlines (Content-Type, Content-Length,Date, [location if there is redirection])
             headerLines.Add("Content-Type: " + contentType);
             headerLines.Add("Content-Length: " + content.Length);
             headerLines.Add("Date: " + DateTime.Now);
             if(redirectoinPath != null)
                 headerLines.Add("location: " + redirectoinPath);
 
-            string headerlinesSection;
+            string headerlinesSection = string.Empty;
             foreach (string header in headerLines)
             {
                 headerlinesSection = header + "\r\n";
@@ -55,7 +55,7 @@ namespace HTTPServer
         private string GetStatusLine(StatusCode code)
         {
             // TODO: Create the response status line and return it
-            string message = null;
+            string message = string.Empty;
             if ((int)code == 200) message = "OK";
             if ((int)code == 500) message = "InternalServerError";
             if ((int)code == 404) message = "Not Found";
