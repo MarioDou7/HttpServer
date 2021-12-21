@@ -45,22 +45,38 @@ namespace HTTPServer
         /// <returns>True if parsing succeeds, false otherwise.</returns>
         public bool ParseRequest()
         {
-            throw new NotImplementedException();
-
-            //TODO: parse the receivedRequest using the \r\n delimeter   
-
+            /*            throw new NotImplementedException();
+            */
+            //TODO: parse the receivedRequest using the \r\n delimeter
+            requestLines = this.requestString.Split(new char[] {'\r','\n'});
             // check that there is atleast 3 lines: Request line, Host Header, Blank line (usually 4 lines with the last empty line for empty content)
+            if (requestLines.Length < 3)
+                return false;
 
             // Parse Request line
-
+            if (!(this.ParseRequestLine())) return false;
             // Validate blank line exists
+            if (!(this.ValidateBlankLine())) return false;
 
             // Load header lines into HeaderLines dictionary
         }
 
         private bool ParseRequestLine()
         {
-            throw new NotImplementedException();
+            string requestline = requestLines[0];
+            string[] tokens = requestline.Split(' ');
+
+            if (tokens.Length != 3)      return false;
+            if (tokens[0] != "GET")      return false;
+            if (this.ValidateIsURI(tokens[1]))    return false;
+            if (tokens[2] != "HTTP/1.1") return false;
+
+            this.method = RequestMethod.GET;
+            this.httpVersion = HTTPVersion.HTTP11;
+            //to be continued
+
+            return true;
+
         }
 
         private bool ValidateIsURI(string uri)
@@ -70,12 +86,15 @@ namespace HTTPServer
 
         private bool LoadHeaderLines()
         {
-            throw new NotImplementedException();
+            
         }
 
         private bool ValidateBlankLine()
         {
-            throw new NotImplementedException();
+            if (requestLines[-1] == "")
+                return true;
+
+            return false;
         }
 
     }
