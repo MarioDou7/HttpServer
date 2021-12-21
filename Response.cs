@@ -35,7 +35,7 @@ namespace HTTPServer
             headerLines.Add("Content-Type: " + contentType);
             headerLines.Add("Content-Length: " + content.Length);
             headerLines.Add("Date: " + DateTime.Now);
-            if(redirectoinPath != null)
+            if(redirectoinPath != string.Empty)
                 headerLines.Add("location: " + redirectoinPath);
 
             string headerlinesSection = string.Empty;

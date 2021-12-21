@@ -101,7 +101,7 @@ namespace HTTPServer
 
         private bool ValidateBlankLine()
         {
-            if (requestLines[-1] == "")
+            if (requestLines[requestLines.Length-1] == "")
                 return true;
 
             return false;
