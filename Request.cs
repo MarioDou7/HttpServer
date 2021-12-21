@@ -45,10 +45,10 @@ namespace HTTPServer
         /// <returns>True if parsing succeeds, false otherwise.</returns>
         public bool ParseRequest()
         {
-            /*            throw new NotImplementedException();
-            */
+
             //TODO: parse the receivedRequest using the \r\n delimeter
-            requestLines = this.requestString.Split(new char[] {'\r','\n'});
+            requestLines = requestString.Split("\r\n");
+
             // check that there is atleast 3 lines: Request line, Host Header, Blank line (usually 4 lines with the last empty line for empty content)
             if (requestLines.Length < 3)
                 return false;
@@ -57,8 +57,10 @@ namespace HTTPServer
             if (!(this.ParseRequestLine())) return false;
             // Validate blank line exists
             if (!(this.ValidateBlankLine())) return false;
-
             // Load header lines into HeaderLines dictionary
+            if (!(this.LoadHeaderLines())) return false;
+
+            return true;
         }
 
         private bool ParseRequestLine()
@@ -69,11 +71,14 @@ namespace HTTPServer
             if (tokens.Length != 3)      return false;
             if (tokens[0] != "GET")      return false;
             if (this.ValidateIsURI(tokens[1]))    return false;
-            if (tokens[2] != "HTTP/1.1") return false;
+            if (tokens[2] == "HTTP/1.1") this.httpVersion = HTTPVersion.HTTP11;
+            else if (tokens[2] == "HTTP/1.0") this.httpVersion = HTTPVersion.HTTP10;
+            else if (tokens[2] == "HTTP/0.9") this.httpVersion = HTTPVersion.HTTP09;
+            else return false;
 
             this.method = RequestMethod.GET;
-            this.httpVersion = HTTPVersion.HTTP11;
-            //to be continued
+            this.relativeURI = tokens[1];
+
 
             return true;
 
@@ -86,7 +91,12 @@ namespace HTTPServer
 
         private bool LoadHeaderLines()
         {
-            
+            for ( int i = 1; i < requestLines.Length -2; i++)
+            {
+                string[] key_value = requestLines[i].Split(' ');
+                headerLines.Add(key_value[0], key_value[1]);
+            }
+            return true;
         }
 
         private bool ValidateBlankLine()
