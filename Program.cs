@@ -29,6 +29,7 @@ namespace HTTPServer
             // each line in the file specify a redirection rule
             // example: "aboutus.html,aboutus2.html"
             sr.WriteLine("aboutus.html,aboutus2.html");
+            sr.Close();
             // means that when making request to aboustus.html,, it redirects me to aboutus2
         }
          
