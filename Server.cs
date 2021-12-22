@@ -99,6 +99,9 @@ namespace HTTPServer
                 
                 //TODO: map the relativeURI in request to get the physical path of the resource.
                 string physicalPath = Path.Combine(Configuration.RootPath, request.relativeURI);
+                Console.WriteLine("---------------------------------");
+                Console.WriteLine(physicalPath);
+                Console.WriteLine(Configuration.RootPath+ request.relativeURI);
 
 
                 //TODO: check for redirect

@@ -24,7 +24,7 @@ namespace HTTPServer
         string[] requestLines;
         RequestMethod method;
         public string relativeURI;
-        Dictionary<string, string> headerLines;
+        Dictionary<string, string> headerLines = new Dictionary<string, string>();
 
         public Dictionary<string, string> HeaderLines
         {
@@ -49,6 +49,10 @@ namespace HTTPServer
             //TODO: parse the receivedRequest using the \r\n delimeter
             requestLines = requestString.Split(new string[] { "\r\n"},StringSplitOptions.None);
             Console.WriteLine(requestString);
+            Console.WriteLine("------------------------------------------------------------------------------");
+            Console.WriteLine(requestLines[0]);
+            Console.WriteLine(requestLines[1]);
+            Console.WriteLine(requestLines[2]);
 
             // check that there is atleast 3 lines: Request line, Host Header, Blank line (usually 4 lines with the last empty line for empty content)
             if (requestLines.Length < 3)
@@ -69,9 +73,22 @@ namespace HTTPServer
             string requestline = requestLines[0];
             string[] tokens = requestline.Split(' ');
 
-            if (tokens.Length != 3)      return false;
-            if (tokens[0] != "GET")      return false;
-            if (this.ValidateIsURI(tokens[1]))    return false;
+            if (tokens.Length != 3)
+            {
+                Console.WriteLine("WRong Line number");
+                return false;
+            }
+            if (tokens[0] != "GET")
+            {
+                Console.WriteLine("Dosen't have get method");
+                return false;
+            }
+
+            if (!(this.ValidateIsURI(tokens[1])))
+            {
+                Console.WriteLine("Validate URI");
+                return false;
+            }
             if (tokens[2] == "HTTP/1.1") this.httpVersion = HTTPVersion.HTTP11;
             else if (tokens[2] == "HTTP/1.0") this.httpVersion = HTTPVersion.HTTP10;
             else if (tokens[2] == "HTTP/0.9") this.httpVersion = HTTPVersion.HTTP09;
@@ -79,6 +96,7 @@ namespace HTTPServer
 
             this.method = RequestMethod.GET;
             this.relativeURI = tokens[1];
+
 
 
             return true;
