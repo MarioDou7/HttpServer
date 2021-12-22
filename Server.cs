@@ -173,12 +173,11 @@ namespace HTTPServer
             try
             {
                 // TODO: using the filepath paramter read the redirection rules from file 
-                Console.WriteLine(filePath);
                 string[] lines = File.ReadAllLines(filePath);
                 for (int i = 0; i < lines.Length; i++)
                 {
                     string[] rules = lines[i].Split(',');
-                    
+
                     Configuration.RedirectionRules.Add(rules[0], rules[1]);
                 }
 
