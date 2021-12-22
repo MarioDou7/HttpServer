@@ -47,7 +47,8 @@ namespace HTTPServer
         {
 
             //TODO: parse the receivedRequest using the \r\n delimeter
-            requestLines = requestString.Split("\r\n");
+            requestLines = requestString.Split(new string[] { "\r\n"},StringSplitOptions.None);
+            Console.WriteLine(requestString);
 
             // check that there is atleast 3 lines: Request line, Host Header, Blank line (usually 4 lines with the last empty line for empty content)
             if (requestLines.Length < 3)

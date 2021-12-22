@@ -19,7 +19,7 @@ namespace HTTPServer
             this.LoadRedirectionRules(redirectionMatrixPath);
             //TODO: initialize this.serverSocket
             this.serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPEndPoint hostEndPoint = new IPEndPoint(IPAddress.Any, portNumber);
+            IPEndPoint hostEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), portNumber);
             serverSocket.Bind(hostEndPoint);
 
         }
@@ -82,7 +82,6 @@ namespace HTTPServer
 
         Response HandleRequest(Request request)
         {
-            /*           throw new NotImplementedException();*/
             string content_type = "text/html";
             string content;
             StatusCode code = StatusCode.OK;
@@ -187,6 +186,7 @@ namespace HTTPServer
             {
                 // TODO: log exception using Logger class
                 Logger.LogException(ex);
+                Console.ReadLine();
                 Environment.Exit(1);
             }
         }

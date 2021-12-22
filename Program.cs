@@ -12,7 +12,7 @@ namespace HTTPServer
         {
             // TODO: Call CreateRedirectionRulesFile() function to create the rules of redirection 
             CreateRedirectionRulesFile();
-            string redirectionMatrixPath = Path.Combine(Configuration.RootPath, "redirectionRules.txt");
+            string redirectionMatrixPath = Path.GetFullPath("redirectionRules.txt");
             Server server = new Server(1000, redirectionMatrixPath);
             server.StartServer();
             
@@ -25,6 +25,7 @@ namespace HTTPServer
         {
             // TODO: Create file named redirectionRules.txt
             StreamWriter sr = new StreamWriter("redirectionRules.txt");
+            
             // each line in the file specify a redirection rule
             // example: "aboutus.html,aboutus2.html"
             sr.WriteLine("aboutus.html,aboutus2.html");
