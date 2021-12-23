@@ -36,12 +36,12 @@ namespace HTTPServer
             headerLines.Add("Content-Length: " + content.Length);
             headerLines.Add("Date: " + DateTime.Now);
             if(redirectoinPath != string.Empty)
-                headerLines.Add("location: " + redirectoinPath);
+                headerLines.Add("Location: " + "http://localhost:1000/" + redirectoinPath);
 
             string headerlinesSection = string.Empty;
             foreach (string header in headerLines)
             {
-                headerlinesSection = header + "\r\n";
+                headerlinesSection += header + "\r\n";
             }
 
             // TODO: Create the request string

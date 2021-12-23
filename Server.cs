@@ -96,13 +96,9 @@ namespace HTTPServer
                     content = LoadDefaultPage(Configuration.BadRequestDefaultPageName);
                     return new Response(code, content_type, content, string.Empty);
                 }
-                
-                //TODO: map the relativeURI in request to get the physical path of the resource.
-                string physicalPath = Path.Combine(Configuration.RootPath, request.relativeURI);
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine(physicalPath);
-                Console.WriteLine(Configuration.RootPath+ request.relativeURI);
 
+                //TODO: map the relativeURI in request to get the physical path of the resource.
+                string physicalPath = Configuration.RootPath + '\\' + request.relativeURI;
 
                 //TODO: check for redirect
                 string redirectpath = GetRedirectionPagePathIFExist(request.relativeURI);
@@ -125,6 +121,7 @@ namespace HTTPServer
                 content = LoadDefaultPage(request.relativeURI);
 
                 // Create OK response
+                content = LoadDefaultPage(request.relativeURI);
                 res = new Response(StatusCode.OK, content_type, content, string.Empty);
             }
             catch (Exception ex)
@@ -153,7 +150,7 @@ namespace HTTPServer
 
         private string LoadDefaultPage(string defaultPageName)
         {
-            string filePath = Path.Combine(Configuration.RootPath, defaultPageName);
+            string filePath = Configuration.RootPath + '\\' + defaultPageName;
             // TODO: check if filepath not exist log exception using Logger class and return empty string
             try
             {
