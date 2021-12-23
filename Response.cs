@@ -61,7 +61,7 @@ namespace HTTPServer
             if ((int)code == 404) message = "Not Found";
             if ((int)code == 400) message = "Bad Request";
             if ((int)code == 301) message = "Redirect";
-            string statusLine = "HTTP/1.1 " + code + " " + message + "\r\n";
+            string statusLine = "HTTP/1.1 " + (int)code + " " + message + "\r\n";
 
             return statusLine;
         }
