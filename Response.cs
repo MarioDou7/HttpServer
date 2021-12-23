@@ -36,7 +36,7 @@ namespace HTTPServer
             headerLines.Add("Content-Length: " + content.Length);
             headerLines.Add("Date: " + DateTime.Now);
             if(redirectoinPath != string.Empty)
-                headerLines.Add("Location: " + "http://localhost:1000/" + redirectoinPath);
+                headerLines.Add("Location: " +  redirectoinPath);
 
             string headerlinesSection = string.Empty;
             foreach (string header in headerLines)
