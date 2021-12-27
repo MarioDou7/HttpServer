@@ -47,7 +47,7 @@ namespace HTTPServer
         {
 
             //TODO: parse the receivedRequest using the \r\n delimeter
-            requestLines = requestString.Split(new string[] { "\r\n"},StringSplitOptions.None);
+            requestLines = requestString.Split(new string[] {"\r\n"},StringSplitOptions.None);
             
             // check that there is atleast 3 lines: Request line, Host Header, Blank line (usually 4 lines with the last empty line for empty content)
             if (requestLines.Length < 3)
@@ -92,11 +92,17 @@ namespace HTTPServer
 
         private bool LoadHeaderLines()
         {
+            bool HostheaderFound = false;
             for ( int i = 1; i < requestLines.Length -2; i++)
             {
                 string[] key_value = requestLines[i].Split(' ');
                 headerLines.Add(key_value[0], key_value[1]);
+
+                if (key_value[0] == "Host:")
+                    HostheaderFound = true;
             }
+            if (!HostheaderFound)
+                return false;
             return true;
         }
 

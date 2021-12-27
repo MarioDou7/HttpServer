@@ -30,8 +30,7 @@ namespace HTTPServer
         List<string> headerLines = new List<string>();
         public Response(StatusCode code, string contentType, string content, string redirectoinPath)
         {
-/*            throw new NotImplementedException();
-*/            // TODO: Add headlines (Content-Type, Content-Length,Date, [location if there is redirection])
+            // TODO: Add headlines (Content-Type, Content-Length,Date, [location if there is redirection])
             headerLines.Add("Content-Type: " + contentType);
             headerLines.Add("Content-Length: " + content.Length);
             headerLines.Add("Date: " + DateTime.Now);
