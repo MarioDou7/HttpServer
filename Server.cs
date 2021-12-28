@@ -88,7 +88,6 @@ namespace HTTPServer
             Response res = null;
             try
             {
-                throw new FieldAccessException();
                 //TODO: check for bad request
                 bool requestSuccess = request.ParseRequest();
                 if(!requestSuccess)

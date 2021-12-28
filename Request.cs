@@ -69,7 +69,11 @@ namespace HTTPServer
             string[] tokens = requestline.Split(' ');
 
             if (tokens.Length != 3)                 return false;
-            if (tokens[0] != "GET")                 return false;
+            if (tokens[0] == "GET")                 this.method = RequestMethod.GET;
+            else if (tokens[0] == "POST")           this.method = RequestMethod.POST;
+            else if (tokens[0] == "HEAD")           this.method = RequestMethod.HEAD;
+            else                                    return false;
+
             if (!(this.ValidateIsURI(tokens[1])))   return false;
 
             if (tokens[2] == "HTTP/1.1") this.httpVersion = HTTPVersion.HTTP11;
