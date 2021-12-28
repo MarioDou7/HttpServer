@@ -78,6 +78,7 @@ namespace HTTPServer
             else return false;
 
             this.method = RequestMethod.GET;
+            
             this.relativeURI = tokens[1].Replace('/' , '\\').TrimStart('\\');
 
 

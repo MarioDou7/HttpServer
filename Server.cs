@@ -88,6 +88,7 @@ namespace HTTPServer
             Response res = null;
             try
             {
+                throw new FieldAccessException();
                 //TODO: check for bad request
                 bool requestSuccess = request.ParseRequest();
                 if(!requestSuccess)
@@ -99,6 +100,7 @@ namespace HTTPServer
 
                 //TODO: map the relativeURI in request to get the physical path of the resource.
                 string physicalPath = Configuration.RootPath + '\\' + request.relativeURI;
+                Console.WriteLine(request.relativeURI);
 
                 //TODO: check for redirect
                 string redirectpath = GetRedirectionPagePathIFExist(request.relativeURI);
@@ -143,7 +145,10 @@ namespace HTTPServer
             string redirectpath = string.Empty;
 
             if (Configuration.RedirectionRules.ContainsKey(relativePath))
+            {
+                Console.WriteLine("IN the function");
                 redirectpath = Configuration.RedirectionRules[relativePath];
+            }
 
             return redirectpath;
         }
