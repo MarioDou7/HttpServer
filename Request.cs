@@ -68,23 +68,38 @@ namespace HTTPServer
             string requestline = requestLines[0];
             string[] tokens = requestline.Split(' ');
 
-            if (tokens.Length != 3)                 return false;
-            if (tokens[0] == "GET")                 this.method = RequestMethod.GET;
-            else if (tokens[0] == "POST")           this.method = RequestMethod.POST;
-            else if (tokens[0] == "HEAD")           this.method = RequestMethod.HEAD;
-            else                                    return false;
+            if (tokens.Length < 3)
+            {
+                Console.WriteLine("not equal 3 lines");
+                return false;
+            }
+            if (tokens[0] == "GET") this.method = RequestMethod.GET;
+            else if (tokens[0] == "POST") this.method = RequestMethod.POST;
+            else if (tokens[0] == "HEAD") this.method = RequestMethod.HEAD;
+            else
+            {
+                Console.WriteLine("wrong method");
+                return false;
+            }
 
-            if (!(this.ValidateIsURI(tokens[1])))   return false;
+            if (!(this.ValidateIsURI(tokens[1])))
+            {
+                Console.WriteLine("Wrong uri");
+                return false;
+            }
 
             if (tokens[2] == "HTTP/1.1") this.httpVersion = HTTPVersion.HTTP11;
             else if (tokens[2] == "HTTP/1.0") this.httpVersion = HTTPVersion.HTTP10;
             else if (tokens[2] == "HTTP/0.9") this.httpVersion = HTTPVersion.HTTP09;
-            else return false;
+            else
+            {
+                Console.WriteLine("wrong http version");
+                return false;
+            }
 
-            this.method = RequestMethod.GET;
-            
+
             this.relativeURI = tokens[1].Replace('/' , '\\').TrimStart('\\');
-
+            
 
             return true;
 
@@ -100,11 +115,25 @@ namespace HTTPServer
             bool HostheaderFound = false;
             for ( int i = 1; i < requestLines.Length -2; i++)
             {
-                string[] key_value = requestLines[i].Split(' ');
+                if (!requestLines[i].Contains(": "))
+                    return false;
+                string[] key_value = requestLines[i].Split(new string[] { ": " }, StringSplitOptions.None);
                 headerLines.Add(key_value[0], key_value[1]);
 
-                if (key_value[0] == "Host:")
-                    HostheaderFound = true;
+                
+                if (key_value[0] == "Host")
+                {
+                    if (!(string.IsNullOrEmpty(key_value[1].Trim())) && (!(key_value[1].Contains("User-Agent")))) 
+                    {
+                        HostheaderFound = true;
+                        break;
+                    }
+                
+                }
+                else
+                {
+                    Console.WriteLine("Host not written correctly\n");
+                }
             }
             if (!HostheaderFound)
                 return false;
@@ -113,7 +142,7 @@ namespace HTTPServer
 
         private bool ValidateBlankLine()
         {
-            if (requestLines[requestLines.Length-1] == "")
+            if (requestLines[requestLines.Length-2] == "")
                 return true;
 
             return false;

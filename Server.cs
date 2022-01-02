@@ -89,9 +89,11 @@ namespace HTTPServer
             try
             {
                 //TODO: check for bad request
+                throw new NotImplementedException();
                 bool requestSuccess = request.ParseRequest();
-                if(!requestSuccess)
+                if(requestSuccess)
                 {
+                    Console.WriteLine("Bad Request");
                     code = StatusCode.BadRequest;
                     content = LoadDefaultPage(Configuration.BadRequestDefaultPageName);
                     return new Response(code, content_type, content, string.Empty);
@@ -122,6 +124,7 @@ namespace HTTPServer
                 content = LoadDefaultPage(request.relativeURI);
 
                 // Create OK response
+                Console.WriteLine("OK\n");
                 content = LoadDefaultPage(request.relativeURI);
                 res = new Response(StatusCode.OK, content_type, content, string.Empty);
             }
@@ -144,10 +147,7 @@ namespace HTTPServer
             string redirectpath = string.Empty;
 
             if (Configuration.RedirectionRules.ContainsKey(relativePath))
-            {
-                Console.WriteLine("IN the function");
                 redirectpath = Configuration.RedirectionRules[relativePath];
-            }
 
             return redirectpath;
         }
